@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+	<bean id="testRunner" class="com.ecollege.lunit.runner.SequentialTestRunner">
+		<property name="fixture" ref="testFixture" />
+		<property name="testCases">
+			<list>
+				<ref bean="testCase1" />
+				<ref bean="testCase2" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="testFixture" class="com.ecollege.lunit.fixture.DemoTestFixture" />
+
+	<bean id="testCase1" class="com.ecollege.lunit.DemoIterationLoadTest">
+		<property name="maxIterations" value="1000" />
+		<property name="iterationFixture" ref="testFixture" />
+	</bean>
+
+	<bean id="testCase2" class="com.ecollege.lunit.DemoTimedLoadTest">
+		<property name="maxTime" value="10000" />
+		<property name="iterationFixture" ref="testFixture" />
+	</bean>
+
+</beans>

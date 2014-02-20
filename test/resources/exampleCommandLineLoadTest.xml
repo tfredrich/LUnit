@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+	<bean id="testRunner" class="com.ecollege.lunit.runner.TestRunner">
+		<!-- property name="fixture" ref="testFixture" / -->
+		<property name="testCases">
+			<list>
+				<ref bean="sendTestCase" />
+				<ref bean="receiveTestCase" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="testFixture" class="com.ecollege.lunit.fixture.ExternalCommandFixture">
+		<property name="setupCommand" value="startFiorano" />
+		<property name="teardownCommand" value="stopFiorano" />
+	</bean>
+
+	<bean id="sendTestCase" class="com.ecollege.lunit.test.TestCasePrototype">
+		<property name="name" value="Fiorano Send Load Test" />
+		<property name="prototype" ref="sendLoadTest" />
+		<property name="threadCount" value="1" />
+	</bean>
+
+	<bean id="receiveTestCase" class="com.ecollege.lunit.test.TestCasePrototype">
+		<property name="name" value="Fiorano Receive Load Test" />
+		<property name="prototype" ref="receiveLoadTest" />
+		<property name="threadCount" value="1" />
+	</bean>
+	
+	<bean id="sendLoadTest" class="com.ecollege.lunit.load.ExternalCommandLoadTest">
+		<property name="command" value="cmd /c echo write fiorano" />
+	</bean>
+	
+	<bean id="receiveLoadTest" class="com.ecollege.lunit.load.ExternalCommandLoadTest">
+		<property name="command" value="cmd /c echo read fiorano" />
+	</bean>
+
+</beans>
